@@ -18,5 +18,34 @@
         </ul>
       </nav>
     </header>
+    <main>
+      <h1 class="registerHeader">Logg inn</h1>
+      <section class="registerContainer">
+        <p id="wrongUserInfo">Feil brukernavn eller passord!</p>
+        <div class="registerInput">
+          <input
+            type="text"
+            id="usernameInput"
+            name="usernameInput"
+            placeholder="Skriv inn brukernavn"
+            required
+          />
+          <input
+            type="text"
+            id="passwordInput"
+            name="passwordInput"
+            placeholder="Skriv inn passord"
+            required
+          />
+        </div>
+        <div class="buttonSection">
+          <button type="submit" id="loginBtn">Logg inn</button>
+        </div>
+        <p class="registerInfo">
+          Ikke registrert bruker ennå?
+          <a href="./register.html">Registrer bruker her</a>
+        </p>
+      </section>
+    </main>
   </body>
 </html>

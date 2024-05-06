@@ -1,0 +1,75 @@
+.registerHeader {
+  text-align: center;
+  margin: 35px;
+}
+
+.registerContainer {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.registerInput {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  width: 20rem;
+  margin: 15px auto;
+}
+
+#newUsernameInput,
+#usernameInput {
+  padding: 15px;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#takenUsernameInfo,
+#wrongUserInfo {
+  text-align: center;
+  font-size: 1.2rem;
+  color: red;
+  display: none;
+}
+
+#newUsernameInput::placeholder,
+#usernameInput::placeholder {
+  color: black;
+}
+
+#newPasswordInput,
+#passwordInput {
+  padding: 15px;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+#newPasswordInput::placeholder,
+#passwordInput::placeholder {
+  color: black;
+}
+
+.buttonSection {
+  display: flex;
+  align-self: center;
+  padding: 15px;
+}
+
+.buttonSection button {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 15px;
+  border-radius: 15px;
+  background-color: #d9b70d;
+  color: black;
+}
+
+.buttonSection button:hover {
+  cursor: pointer;
+}
+
+.registerInfo {
+  margin-top: 30px;
+  text-align: center;
+}
