@@ -16,3 +16,34 @@ const getHeaders = () => {
     "Content-Type": "application/json",
   };
 };
+
+// Fetch requests
+const getCall = (url, headerParam) => {
+  return fetch(url, {
+    method: "GET",
+    headers: headerParam,
+  });
+};
+
+const postCall = (url, headerParam, bodyData) => {
+  return fetch(url, {
+    method: "POST",
+    headers: headerParam,
+    body: JSON.stringify(bodyData),
+  });
+};
+
+const putCall = (url, headerParam, bodyData) => {
+  return fetch(url, {
+    method: "PUT",
+    headers: headerParam,
+    body: JSON.stringify(bodyData),
+  });
+};
+
+const deleteCall = (url, headerParam) => {
+  return fetch(url, {
+    method: "PUT",
+    headers: headerParam,
+  });
+};
