@@ -36,3 +36,32 @@ const createUser = async (user) => {
     console.error("Noe gikk feil ved posting av brukeren", error);
   }
 };
+
+// Get inputs and create user if not duplicated
+const getNewUser = async () => {
+  const newUsernameInput = document.getElementById("newUsernameInput");
+  const newPasswordInput = document.getElementById("newPasswordInput");
+  const takenUsernameInfo = document.getElementById("takenUsernameInfo");
+
+  const user = {
+    user: newUsernameInput,
+    password: newPasswordInput,
+    myFavoriteCountries: [],
+  };
+
+  if (await checkIfUsernameExist(newUsernameInput)) {
+    takenUsernameInfo.style.display = "block";
+    return false;
+  } else {
+    await createUser(user);
+    return false;
+  }
+};
+
+// Add eventlistener to register-btn
+const submitNewUserBtn = document.getElementById("submitNewUserBtn");
+submitNewUserBtn.addEventListener("click", async () => {
+  if (await getNewUser()) {
+    window.location.href = "./login.html";
+  }
+});
