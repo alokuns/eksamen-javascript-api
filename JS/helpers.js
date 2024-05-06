@@ -66,3 +66,19 @@ const logOut = () => {
 const getLoggedInUser = () => {
   return JSON.parse(sessionStorage.getItem("loggedInUser"));
 };
+
+// Export all functions and variables
+export {
+  USERBASE_URL,
+  COUNTRIES_URL,
+  getHeadersWithKey,
+  getHeaders,
+  getCall,
+  postCall,
+  putCall,
+  deleteCall,
+  setLoginStatus,
+  loggedIn,
+  logOut,
+  getLoggedInUser,
+};
