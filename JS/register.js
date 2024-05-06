@@ -22,3 +22,17 @@ const checkIfUsernameExist = async (username) => {
     console.error("Noe gikk feil ved henting av brukerdata");
   }
 };
+
+// Create new user
+const createUser = async (user) => {
+  try {
+    const res = await postCall(USERBASE_URL, getHeadersWithKey, user);
+    if (!res.ok) {
+      throw new Error(
+        "En feil oppsto i databasen som gjorde at brukeren ikke kunne bli lagt til"
+      );
+    }
+  } catch (error) {
+    console.error("Noe gikk feil ved posting av brukeren", error);
+  }
+};
