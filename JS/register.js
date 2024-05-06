@@ -14,8 +14,10 @@ const checkIfUsernameExist = async (username) => {
         "Det skjedde en feil i databasen ved henting av brukerdata"
       );
     }
-    const data = res;
-    console.log(data);
+    const data = await res.json();
+    return data.items.some((user) => {
+      user.username === username;
+    });
   } catch (error) {
     console.error("Noe gikk feil ved henting av brukerdata");
   }
