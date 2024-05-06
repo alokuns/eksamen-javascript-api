@@ -47,3 +47,22 @@ const deleteCall = (url, headerParam) => {
     headers: headerParam,
   });
 };
+
+// Login functions and sessionstorage setup
+const setLoginStatus = (status) => {
+  sessionStorage.setItem("loggedIn", status ? "true" : "false");
+};
+
+const loggedIn = () => {
+  return sessionStorage.getItem("loggedIn") === "true";
+};
+
+const logOut = () => {
+  setLoginStatus(false);
+  sessionStorage.removeItem("loggedInUser");
+  location.reload();
+};
+
+const getLoggedInUser = () => {
+  return JSON.parse(sessionStorage.getItem("loggedInUser"));
+};
