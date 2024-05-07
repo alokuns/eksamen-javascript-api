@@ -37,7 +37,7 @@ const fetchCountries = async () => {
     }
     const data = await res.json();
     allCountries = data;
-    allCountries.forEach((country) => {
+    sortInAlphabeticalOrder().forEach((country) => {
       showCountries(country);
     });
   } catch (error) {
@@ -88,13 +88,13 @@ const showCountries = (country) => {
     name.style.color = "white";
     divContainer.style.transition = "all 0.4s";
     name.style.transition = "all 0.4s";
-  })
+  });
 
   divContainer.addEventListener("mouseleave", () => {
     divContainer.style.backgroundColor = "#99B4BF";
     divContainer.style.color = "black";
-    name.style.color = "black"
-  })
+    name.style.color = "black";
+  });
 
   divContainer.appendChild(image);
   divContainer.appendChild(landCode);
@@ -103,6 +103,11 @@ const showCountries = (country) => {
 };
 
 fetchCountries();
+
+//Sort country in alphabetical order
+const sortInAlphabeticalOrder = () => {
+  return allCountries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+};
 
 const sortByName = () => {};
 
