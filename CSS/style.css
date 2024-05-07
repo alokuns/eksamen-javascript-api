@@ -40,3 +40,11 @@ h1 {
     text-decoration: none;
     background-color: #BF8D30;
 }
+
+#countryList {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    margin: 40px;
+    gap: 20px;
+}
