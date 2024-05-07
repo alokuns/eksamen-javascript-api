@@ -8,16 +8,14 @@ import {
 // Check if username already exists in the database
 const checkIfUsernameExist = async (username) => {
   try {
-    const res = await getCall(USERBASE_URL, getHeadersWithKey);
+    const res = await getCall(USERBASE_URL, getHeadersWithKey());
     if (!res.ok) {
       throw new Error(
         "Det skjedde en feil i databasen ved henting av brukerdata"
       );
     }
     const data = await res.json();
-    return data.items.some((user) => {
-      user.username === username;
-    });
+    return data.items.some((user) => user.username === username);
   } catch (error) {
     console.error("Noe gikk feil ved henting av brukerdata");
   }
@@ -26,12 +24,13 @@ const checkIfUsernameExist = async (username) => {
 // Create new user
 const createUser = async (user) => {
   try {
-    const res = await postCall(USERBASE_URL, getHeadersWithKey, user);
+    const res = await postCall(USERBASE_URL, getHeadersWithKey(), user);
     if (!res.ok) {
       throw new Error(
         "En feil oppsto i databasen som gjorde at brukeren ikke kunne bli lagt til"
       );
     }
+    return res.json();
   } catch (error) {
     console.error("Noe gikk feil ved posting av brukeren", error);
   }
@@ -39,21 +38,23 @@ const createUser = async (user) => {
 
 // Get inputs and create user if not duplicated
 const getNewUser = async () => {
-  const newUsernameInput = document.getElementById("newUsernameInput");
-  const newPasswordInput = document.getElementById("newPasswordInput");
+  const newUsernameInput = document.getElementById("newUsernameInput").value;
+  const newPasswordInput = document.getElementById("newPasswordInput").value;
   const takenUsernameInfo = document.getElementById("takenUsernameInfo");
 
-  const user = {
-    user: newUsernameInput,
-    password: newPasswordInput,
-    myFavoriteCountries: [],
-  };
+  const userInfo = [
+    {
+      username: newUsernameInput,
+      password: newPasswordInput,
+      myFavoriteCountries: [],
+    },
+  ];
 
   if (await checkIfUsernameExist(newUsernameInput)) {
     takenUsernameInfo.style.display = "block";
     return false;
   } else {
-    await createUser(user);
+    await createUser(userInfo);
     return false;
   }
 };
