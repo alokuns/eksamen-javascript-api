@@ -44,7 +44,18 @@ h1 {
 #countryList {
     display: flex;
     flex-flow: row wrap;
-    align-items: center;
-    margin: 40px;
+    align-items: stretch;
+    justify-content: center;
+    margin: 30px;
     gap: 20px;
+}
+
+#countriesContainer {
+    display: block;
+}
+
+#countriesHeading {
+    text-align: center;
+    font-size: 1.7rem;
+    margin-top: 50px;
 }

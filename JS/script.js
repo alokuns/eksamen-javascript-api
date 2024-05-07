@@ -16,7 +16,9 @@ import {
 // Show content based on if user is logged in or not
 const showContent = () => {
   const welcomeContainer = document.getElementById("welcomeContainer");
+  const countriesContainer = document.getElementById("countriesContainer");
   if (loggedIn()) {
+    countriesContainer.style.display = "block";
     fetchCountries();
   } else {
     welcomeContainer.style.display = "flex";
@@ -50,47 +52,53 @@ const countryList = document.getElementById("countryList");
 const showCountries = (country) => {
   const divContainer = document.createElement("div");
   const image = document.createElement("img");
-  const overlay = document.createElement("div");
+  const landCode = document.createElement("p");
   const name = document.createElement("p");
 
+  divContainer.style.display = "flex";
+  divContainer.style.flexFlow = "column nowrap";
+  divContainer.style.justifyContent = "center";
+  divContainer.style.alignItems = "center";
   divContainer.style.width = "250px";
-  divContainer.style.position = "relative";
+  divContainer.style.padding = "20px";
+  divContainer.style.gap = "10px";
+  divContainer.style.backgroundColor = "#99B4BF";
+  divContainer.style.border = "1px solid black";
+  divContainer.style.borderRadius = "5px";
+  divContainer.style.cursor = "pointer";
 
   image.src = country.flags.png;
   image.alt = "The flag of" + "";
-  image.style.height = "150px";
-  image.style.width = "100%";
+  image.style.height = "50px";
   image.style.objectFit = "contain";
-  image.style.position = "relative"
 
-  overlay.style.display = "flex";
-  overlay.style.justifyContent = "center";
-  overlay.style.alignItems = "center";
-  overlay.style.width = "100%";
-  overlay.style.height = "98%";
-  overlay.style.position = "absolute";
-  overlay.style.top = "0";
-  overlay.style.backgroundColor = "black";
-  overlay.style.opacity = "0";
+  landCode.innerHTML = country.cca2;
+  landCode.style.fontSize = "1.5rem";
 
   name.innerHTML = country.name.common;
-  name.style.fontSize = "2rem";
-  name.style.color = "white";
+  name.style.fontSize = "1.4rem";
+  name.style.fontWeight = "bold";
+  name.style.color = "black";
   name.style.textAlign = "center";
 
   // Animations
   divContainer.addEventListener("mouseover", () => {
-    overlay.style.opacity = "0.7";
-    overlay.style.transition = "opacity 0.4s";
+    divContainer.style.backgroundColor = "#253C59";
+    divContainer.style.color = "white";
+    name.style.color = "white";
+    divContainer.style.transition = "all 0.4s";
+    name.style.transition = "all 0.4s";
   })
 
   divContainer.addEventListener("mouseleave", () => {
-    overlay.style.opacity = "0";
+    divContainer.style.backgroundColor = "#99B4BF";
+    divContainer.style.color = "black";
+    name.style.color = "black"
   })
 
   divContainer.appendChild(image);
-  overlay.appendChild(name);
-  divContainer.appendChild(overlay);
+  divContainer.appendChild(landCode);
+  divContainer.appendChild(name);
   countryList.appendChild(divContainer);
 };
 
