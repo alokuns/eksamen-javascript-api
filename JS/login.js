@@ -27,7 +27,7 @@ const authenticateUser = async (username, password) => {
       // Logs in the user if userInfo is correct
       setLoginStatus(true);
       setLoggedInUser(user._uuid);
-      //window.location.href = "./index.html";
+      window.location.href = "./index.html";
     } else {
       // Tell the user if not correct
       wrongUserInfo.style.display = "block";
