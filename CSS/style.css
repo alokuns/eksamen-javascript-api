@@ -1,0 +1,42 @@
+#welcomeContainer {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+}
+
+.welcomeText {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+#getStartedBtn {
+    padding: 20px 0;
+    margin-top: 40px;
+    border-radius: 15px;
+    background-color: #d9b70d;
+}
+
+#getStartedBtn:hover {
+    background-color: #BF8D30;
+}
+
+#getStartedBtn a {
+    padding: 20px 25px;
+    border-radius: 15px;
+    color: black;
+    background-color: #d9b70d;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#getStartedBtn a:hover {
+    text-decoration: none;
+    background-color: #BF8D30;
+}
