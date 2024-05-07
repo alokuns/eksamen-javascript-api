@@ -55,7 +55,7 @@ const getNewUser = async () => {
     return false;
   } else {
     await createUser(userInfo);
-    return false;
+    return true;
   }
 };
 
