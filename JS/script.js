@@ -113,6 +113,25 @@ const sortInAlphabeticalOrder = () => {
   );
 };
 
+// Find searched countries
+const findCountryInput = document.querySelector("#findCountryInput");
+
+const findCountry = () => {
+  const inputValue = findCountryInput.value.toLowerCase();
+  const foundCountries = allCountries.filter((country) =>
+    country.name.common.toLowerCase().includes(inputValue)
+  );
+
+  if (foundCountries.length > 0) {
+    countryList.innerHTML = "";
+    foundCountries.forEach((country) => {
+      showCountries(country);
+    });
+  }
+};
+
+findCountryInput.addEventListener("input", findCountry);
+
 const sortByName = () => {};
 
 const sortByPopulation = () => {};
