@@ -16,9 +16,11 @@ import {
 // Show content based on if user is logged in or not
 const showContent = () => {
   const welcomeContainer = document.getElementById("welcomeContainer");
-  const countriesContainer = document.getElementById("countriesContainer");
+  const loggedInContentContainer = document.getElementById(
+    "loggedInContentContainer"
+  );
   if (loggedIn()) {
-    countriesContainer.style.display = "block";
+    loggedInContentContainer.style.display = "block";
     fetchCountries();
   } else {
     welcomeContainer.style.display = "flex";
@@ -106,7 +108,9 @@ fetchCountries();
 
 //Sort country in alphabetical order
 const sortInAlphabeticalOrder = () => {
-  return allCountries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+  return allCountries.sort((a, b) =>
+    a.name.common.localeCompare(b.name.common)
+  );
 };
 
 const sortByName = () => {};

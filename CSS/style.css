@@ -1,61 +1,120 @@
+/* Welcome content */
 #welcomeContainer {
-    display: none;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
+  display: none;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {
-    font-size: 3rem;
-    margin-bottom: 40px;
+  font-size: 3rem;
+  margin-bottom: 40px;
 }
 
 .welcomeText {
-    text-align: center;
-    font-size: 1.3rem;
-    margin-bottom: 10px;
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
 }
 
 #getStartedBtn {
-    padding: 20px 0;
-    margin-top: 40px;
-    border-radius: 15px;
-    background-color: #d9b70d;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-radius: 15px;
+  background-color: #d9b70d;
 }
 
 #getStartedBtn:hover {
-    background-color: #BF8D30;
+  background-color: #bf8d30;
 }
 
 #getStartedBtn a {
-    padding: 20px 25px;
-    border-radius: 15px;
-    color: black;
-    background-color: #d9b70d;
-    font-size: 1.3rem;
-    font-weight: bold;
+  padding: 20px 25px;
+  border-radius: 15px;
+  color: black;
+  background-color: #d9b70d;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 #getStartedBtn a:hover {
-    text-decoration: none;
-    background-color: #BF8D30;
+  text-decoration: none;
+  background-color: #bf8d30;
+}
+
+/* Logged in content */
+#loggedInContentContainer {
+  display: block;
+}
+
+/* Filters */
+.searchSection {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: start;
+  margin: 70px 3%;
+}
+
+#findCountryInput {
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.filterWrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.filterBtn {
+  padding: 10px;
+  font-size: 1rem;
+  font-family: Calibri, sans-serif;
+  background-color: white;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filterIcon {
+  height: 20px;
+  margin-left: 15px;
+}
+
+#continents {
+    padding: 0 7px;
+    font-size: 1rem;
+    font-family: Calibri, sans-serif;
+    border: 1px solid black;
+}
+
+#randomCountryBtn {
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 15px;
+  background-color: #d9b70d;
+  cursor: pointer;
+}
+
+#randomCountryBtn:hover {
+  background-color: #bf8d30;
+}
+
+/* List of countries */
+#countriesHeading {
+  text-align: center;
+  font-size: 1.7rem;
+  margin-top: 50px;
 }
 
 #countryList {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: stretch;
-    justify-content: center;
-    margin: 30px;
-    gap: 20px;
-}
-
-#countriesContainer {
-    display: block;
-}
-
-#countriesHeading {
-    text-align: center;
-    font-size: 1.7rem;
-    margin-top: 50px;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: center;
+  margin: 30px;
+  gap: 20px;
 }

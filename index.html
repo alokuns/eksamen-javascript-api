@@ -32,7 +32,44 @@
           <a href="./register.html">Get started</a>
         </button>
       </div>
-      <div id="countriesContainer">
+      <div id="loggedInContentContainer">
+        <div class="searchSection">
+          <input
+            type="text"
+            id="findCountryInput"
+            placeholder="Search for a country"
+          />
+          <div class="filterWrapper">
+            <button class="filterBtn" onclick="sortByAlphabet()">
+              Sort by alphabet
+              <img
+                src="./assets/orderAlphabeticalAtoZIcon.png"
+                class="filterIcon"
+                id="alphabetSortIcon"
+              />
+            </button>
+            <button class="filterBtn" onclick="sortByPopulation()">
+              Sort by population
+              <img
+                src="./assets/sortingAscendingIcon.png"
+                class="filterIcon"
+                id="populationSortBtn"
+              />
+            </button>
+            <button class="filterBtn" onclick="sortByArea()">
+              Sort by area
+              <img
+                src="./assets/sortingAscendingIcon.png"
+                class="filterIcon"
+                id="areaSortIcon"
+              />
+            </button>
+            <select name="continents" id="continents">
+                <option value="all">All countries</option>
+            </select>
+          </div>
+          <button id="randomCountryBtn">Get random country</button>
+        </div>
         <h2 id="countriesHeading">Choose a country</h2>
         <div id="countryList"></div>
       </div>
