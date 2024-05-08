@@ -66,6 +66,7 @@ const fetchCountries = async () => {
       "sortingDescendingIcon.png",
       areaSorting
     );
+    getContinents();
   } catch (error) {
     console.error("Det oppsto et problem ved opphenting av land", error);
   }
@@ -208,6 +209,31 @@ const populationSorting = (countries) => {
 // Sort in order of landarea
 const areaSorting = (countries) => {
   return countries.sort((a, b) => a.area - b.area);
+};
+
+// Get all continents
+const getContinents = () => {
+  const allContinents = allCountries
+    .map((country) => country.continents)
+    .flat();
+  let uniqueContinents = allContinents.filter(
+    (item, index) => allContinents.indexOf(item) === index
+  );
+  uniqueContinents.sort();
+  uniqueContinents.unshift("All continents");
+  uniqueContinents.forEach((continent) => {
+    addToContinentList(continent);
+  });
+  console.log(uniqueContinents);
+};
+
+// Display continent filter list
+const continentList = document.querySelector("#continentList");
+const addToContinentList = (continent) => {
+  const listpoint = document.createElement("option");
+  listpoint.value = continent;
+  listpoint.innerHTML = continent;
+  continentList.appendChild(listpoint);
 };
 
 const showSpesificContinent = () => {};
