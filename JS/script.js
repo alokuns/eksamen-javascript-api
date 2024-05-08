@@ -126,12 +126,12 @@ const findCountry = () => {
 
 findCountryInput.addEventListener("input", findCountry);
 
-//Sort country in alphabetical order
+// Sort in alphabetical order
 const sortInAlphabeticalOrder = (countries) => {
   return countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
 };
 
-// Sort by alphabet
+// Sort by alphabet button
 const sortByAlphabet = () => {
   const alphabetSortIcon = document.getElementById("alphabetSortIcon");
   countryList.innerHTML = "";
@@ -149,19 +149,48 @@ const sortByAlphabet = () => {
         showCountries(country);
       });
   } else {
+    alphabetSortIcon.src = "./assets/orderAlphabeticalAtoZIcon.png";
     sortInAlphabeticalOrder(sortedCountries).forEach((country) => {
       showCountries(country);
     });
-    alphabetSortIcon.src = "./assets/orderAlphabeticalAtoZIcon.png";
   }
 };
 
 const sortByAlphabetBtn = document.querySelector("#sortByAlphabetBtn");
 sortByAlphabetBtn.addEventListener("click", sortByAlphabet);
 
-const sortByName = () => {};
+// Sort in order of population
+const populationSorting = (countries) => {
+  return countries.sort((a, b) => a.population - b.population);
+};
 
-const sortByPopulation = () => {};
+// Sort by population button
+const sortByPopulation = () => {
+  const populationSortIcon = document.getElementById("populationSortIcon");
+  countryList.innerHTML = "";
+  let sortedCountries;
+  if (changedCountries === undefined) {
+    sortedCountries = allCountries;
+  } else {
+    sortedCountries = changedCountries;
+  }
+  if (populationSortIcon.src.includes("sortingAscendingIcon.png")) {
+    populationSortIcon.src = "./assets/sortingDescendingIcon.png";
+    populationSorting(sortedCountries)
+      .reverse()
+      .forEach((country) => {
+        showCountries(country);
+      });
+  } else {
+    populationSortIcon.src = "./assets/sortingAscendingIcon.png";
+    populationSorting(sortedCountries).forEach((country) => {
+      showCountries(country);
+    });
+  }
+};
+
+const sortByPopulationBtn = document.querySelector("#sortByPopulationBtn");
+sortByPopulationBtn.addEventListener("click", sortByPopulation);
 
 const sortByArea = () => {};
 
