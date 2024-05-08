@@ -39,7 +39,7 @@ const fetchCountries = async () => {
     }
     const data = await res.json();
     allCountries = data;
-    sortInAlphabeticalOrder().forEach((country) => {
+    sortInAlphabeticalOrder(allCountries).forEach((country) => {
       showCountries(country);
     });
   } catch (error) {
@@ -106,31 +106,58 @@ const showCountries = (country) => {
 
 fetchCountries();
 
-//Sort country in alphabetical order
-const sortInAlphabeticalOrder = () => {
-  return allCountries.sort((a, b) =>
-    a.name.common.localeCompare(b.name.common)
-  );
-};
-
 // Find searched countries
+let changedCountries;
 const findCountryInput = document.querySelector("#findCountryInput");
 
 const findCountry = () => {
   const inputValue = findCountryInput.value.toLowerCase();
-  const foundCountries = allCountries.filter((country) =>
+  changedCountries = allCountries.filter((country) =>
     country.name.common.toLowerCase().includes(inputValue)
   );
 
-  if (foundCountries.length > 0) {
+  if (changedCountries.length > 0) {
     countryList.innerHTML = "";
-    foundCountries.forEach((country) => {
+    changedCountries.forEach((country) => {
       showCountries(country);
     });
   }
 };
 
 findCountryInput.addEventListener("input", findCountry);
+
+//Sort country in alphabetical order
+const sortInAlphabeticalOrder = (countries) => {
+  return countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+};
+
+// Sort by alphabet
+const sortByAlphabet = () => {
+  const alphabetSortIcon = document.getElementById("alphabetSortIcon");
+  countryList.innerHTML = "";
+  let sortedCountries;
+  if (changedCountries === undefined) {
+    sortedCountries = allCountries;
+  } else {
+    sortedCountries = changedCountries;
+  }
+  if (alphabetSortIcon.src.includes("orderAlphabeticalAtoZIcon.png")) {
+    alphabetSortIcon.src = "./assets/orderAlphabeticalZtoAIcon.png";
+    sortInAlphabeticalOrder(sortedCountries)
+      .reverse()
+      .forEach((country) => {
+        showCountries(country);
+      });
+  } else {
+    sortInAlphabeticalOrder(sortedCountries).forEach((country) => {
+      showCountries(country);
+    });
+    alphabetSortIcon.src = "./assets/orderAlphabeticalAtoZIcon.png";
+  }
+};
+
+const sortByAlphabetBtn = document.querySelector("#sortByAlphabetBtn");
+sortByAlphabetBtn.addEventListener("click", sortByAlphabet);
 
 const sortByName = () => {};
 
