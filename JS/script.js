@@ -192,6 +192,37 @@ const sortByPopulation = () => {
 const sortByPopulationBtn = document.querySelector("#sortByPopulationBtn");
 sortByPopulationBtn.addEventListener("click", sortByPopulation);
 
-const sortByArea = () => {};
+// Sort in order of landarea
+const areaSorting = (countries) => {
+  return countries.sort((a, b) => a.area - b.area);
+};
+
+// Sort by population button
+const sortByArea = () => {
+  const areaSortIcon = document.getElementById("areaSortIcon");
+  countryList.innerHTML = "";
+  let sortedCountries;
+  if (changedCountries === undefined) {
+    sortedCountries = allCountries;
+  } else {
+    sortedCountries = changedCountries;
+  }
+  if (areaSortIcon.src.includes("sortingAscendingIcon.png")) {
+    areaSortIcon.src = "./assets/sortingDescendingIcon.png";
+    areaSorting(sortedCountries)
+      .reverse()
+      .forEach((country) => {
+        showCountries(country);
+      });
+  } else {
+    areaSortIcon.src = "./assets/sortingAscendingIcon.png";
+    areaSorting(sortedCountries).forEach((country) => {
+      showCountries(country);
+    });
+  }
+};
+
+const sortByAreaBtn = document.querySelector("#sortByAreaBtn");
+sortByAreaBtn.addEventListener("click", sortByArea);
 
 const showSpesificContinent = () => {};
