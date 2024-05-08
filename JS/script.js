@@ -39,9 +39,33 @@ const fetchCountries = async () => {
     }
     const data = await res.json();
     allCountries = data;
-    sortInAlphabeticalOrder(allCountries).forEach((country) => {
+    alphabetSorting(allCountries).forEach((country) => {
       showCountries(country);
     });
+    // Set sort by alphabet button
+    setupSortButton(
+      "sortByAlphabetBtn",
+      "alphabetSortIcon",
+      "orderAlphabeticalAtoZIcon.png",
+      "orderAlphabeticalZtoAIcon.png",
+      alphabetSorting
+    );
+    // Set sort by population button
+    setupSortButton(
+      "sortByPopulationBtn",
+      "populationSortIcon",
+      "sortingAscendingIcon.png",
+      "sortingDescendingIcon.png",
+      populationSorting
+    );
+    // Set sort by area button
+    setupSortButton(
+      "sortByAreaBtn",
+      "areaSortIcon",
+      "sortingAscendingIcon.png",
+      "sortingDescendingIcon.png",
+      areaSorting
+    );
   } catch (error) {
     console.error("Det oppsto et problem ved opphenting av land", error);
   }
@@ -126,14 +150,14 @@ const findCountry = () => {
 
 findCountryInput.addEventListener("input", findCountry);
 
-// Sort in alphabetical order
-const sortInAlphabeticalOrder = (countries) => {
-  return countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
-};
-
-// Sort by alphabet button
-const sortByAlphabet = () => {
-  const alphabetSortIcon = document.getElementById("alphabetSortIcon");
+// Sort template
+const sortByTemplate = (
+  iconId,
+  ascendingIcon,
+  descendingIcon,
+  sortFunction
+) => {
+  const sortIcon = document.getElementById(iconId);
   countryList.innerHTML = "";
   let sortedCountries;
   if (changedCountries === undefined) {
@@ -141,88 +165,49 @@ const sortByAlphabet = () => {
   } else {
     sortedCountries = changedCountries;
   }
-  if (alphabetSortIcon.src.includes("orderAlphabeticalAtoZIcon.png")) {
-    alphabetSortIcon.src = "./assets/orderAlphabeticalZtoAIcon.png";
-    sortInAlphabeticalOrder(sortedCountries)
+  if (sortIcon.src.includes(ascendingIcon)) {
+    sortIcon.src = "./assets/" + descendingIcon;
+    sortFunction(sortedCountries)
       .reverse()
       .forEach((country) => {
         showCountries(country);
       });
   } else {
-    alphabetSortIcon.src = "./assets/orderAlphabeticalAtoZIcon.png";
-    sortInAlphabeticalOrder(sortedCountries).forEach((country) => {
+    sortIcon.src = "./assets/" + ascendingIcon;
+    sortFunction(sortedCountries).forEach((country) => {
       showCountries(country);
     });
   }
 };
 
-const sortByAlphabetBtn = document.querySelector("#sortByAlphabetBtn");
-sortByAlphabetBtn.addEventListener("click", sortByAlphabet);
+// Event listener setup
+const setupSortButton = (
+  buttonId,
+  iconId,
+  ascendingIcon,
+  descendingIcon,
+  sortFunction
+) => {
+  document
+    .querySelector(`#${buttonId}`)
+    .addEventListener("click", () =>
+      sortByTemplate(iconId, ascendingIcon, descendingIcon, sortFunction)
+    );
+};
+
+// Sort in alphabetical order
+const alphabetSorting = (countries) => {
+  return countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+};
 
 // Sort in order of population
 const populationSorting = (countries) => {
   return countries.sort((a, b) => a.population - b.population);
 };
 
-// Sort by population button
-const sortByPopulation = () => {
-  const populationSortIcon = document.getElementById("populationSortIcon");
-  countryList.innerHTML = "";
-  let sortedCountries;
-  if (changedCountries === undefined) {
-    sortedCountries = allCountries;
-  } else {
-    sortedCountries = changedCountries;
-  }
-  if (populationSortIcon.src.includes("sortingAscendingIcon.png")) {
-    populationSortIcon.src = "./assets/sortingDescendingIcon.png";
-    populationSorting(sortedCountries)
-      .reverse()
-      .forEach((country) => {
-        showCountries(country);
-      });
-  } else {
-    populationSortIcon.src = "./assets/sortingAscendingIcon.png";
-    populationSorting(sortedCountries).forEach((country) => {
-      showCountries(country);
-    });
-  }
-};
-
-const sortByPopulationBtn = document.querySelector("#sortByPopulationBtn");
-sortByPopulationBtn.addEventListener("click", sortByPopulation);
-
 // Sort in order of landarea
 const areaSorting = (countries) => {
   return countries.sort((a, b) => a.area - b.area);
 };
-
-// Sort by population button
-const sortByArea = () => {
-  const areaSortIcon = document.getElementById("areaSortIcon");
-  countryList.innerHTML = "";
-  let sortedCountries;
-  if (changedCountries === undefined) {
-    sortedCountries = allCountries;
-  } else {
-    sortedCountries = changedCountries;
-  }
-  if (areaSortIcon.src.includes("sortingAscendingIcon.png")) {
-    areaSortIcon.src = "./assets/sortingDescendingIcon.png";
-    areaSorting(sortedCountries)
-      .reverse()
-      .forEach((country) => {
-        showCountries(country);
-      });
-  } else {
-    areaSortIcon.src = "./assets/sortingAscendingIcon.png";
-    areaSorting(sortedCountries).forEach((country) => {
-      showCountries(country);
-    });
-  }
-};
-
-const sortByAreaBtn = document.querySelector("#sortByAreaBtn");
-sortByAreaBtn.addEventListener("click", sortByArea);
 
 const showSpesificContinent = () => {};
