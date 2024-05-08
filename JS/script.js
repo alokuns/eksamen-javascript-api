@@ -13,22 +13,6 @@ import {
   getLoggedInUser,
 } from "./helpers.js";
 
-// Show content based on if user is logged in or not
-const showContent = () => {
-  const welcomeContainer = document.getElementById("welcomeContainer");
-  const loggedInContentContainer = document.getElementById(
-    "loggedInContentContainer"
-  );
-  if (loggedIn()) {
-    loggedInContentContainer.style.display = "block";
-    fetchCountries();
-  } else {
-    welcomeContainer.style.display = "flex";
-  }
-};
-
-showContent();
-
 // Fetch countries
 let allCountries;
 const fetchCountries = async () => {
@@ -71,6 +55,22 @@ const fetchCountries = async () => {
     console.error("Det oppsto et problem ved opphenting av land", error);
   }
 };
+
+// Show content based on if user is logged in or not
+const showContent = () => {
+  const welcomeContainer = document.getElementById("welcomeContainer");
+  const loggedInContentContainer = document.getElementById(
+    "loggedInContentContainer"
+  );
+  if (loggedIn()) {
+    loggedInContentContainer.style.display = "block";
+    fetchCountries();
+  } else {
+    welcomeContainer.style.display = "flex";
+  }
+};
+
+showContent();
 
 // Get countries container
 const countryList = document.getElementById("countryList");
@@ -129,8 +129,6 @@ const showCountries = (country) => {
   countryList.appendChild(divContainer);
 };
 
-fetchCountries();
-
 // Get sorted countries
 const getSortedCountries = () => {
   let sortedCountries;
@@ -171,17 +169,17 @@ const sortByTemplate = (
 ) => {
   const sortIcon = document.getElementById(iconId);
   countryList.innerHTML = "";
-  getSortedCountries();
+  const sorted = getSortedCountries();
   if (sortIcon.src.includes(ascendingIcon)) {
     sortIcon.src = "./assets/" + descendingIcon;
-    sortFunction(sortedCountries)
+    sortFunction(sorted)
       .reverse()
       .forEach((country) => {
         showCountries(country);
       });
   } else {
     sortIcon.src = "./assets/" + ascendingIcon;
-    sortFunction(sortedCountries).forEach((country) => {
+    sortFunction(sorted).forEach((country) => {
       showCountries(country);
     });
   }
@@ -237,8 +235,12 @@ const continentList = document.querySelector("#continentList");
 continentList.addEventListener("change", () => {
   const selectedValue =
     continentList.options[continentList.selectedIndex].value;
-  changedCountries = filteredContinents(selectedValue);
   countryList.innerHTML = "";
+  if (selectedValue === "All continents") {
+    changedCountries = allCountries;
+  } else {
+    changedCountries = filteredContinents(selectedValue);
+  }
   changedCountries.forEach((country) => {
     showCountries(country);
   });
