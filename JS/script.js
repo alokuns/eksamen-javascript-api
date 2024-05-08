@@ -131,6 +131,17 @@ const showCountries = (country) => {
 
 fetchCountries();
 
+// Get sorted countries
+const getSortedCountries = () => {
+  let sortedCountries;
+  if (changedCountries === undefined) {
+    sortedCountries = allCountries;
+  } else {
+    sortedCountries = changedCountries;
+  }
+  return sortedCountries;
+};
+
 // Find searched countries
 let changedCountries;
 const findCountryInput = document.querySelector("#findCountryInput");
@@ -160,12 +171,7 @@ const sortByTemplate = (
 ) => {
   const sortIcon = document.getElementById(iconId);
   countryList.innerHTML = "";
-  let sortedCountries;
-  if (changedCountries === undefined) {
-    sortedCountries = allCountries;
-  } else {
-    sortedCountries = changedCountries;
-  }
+  getSortedCountries();
   if (sortIcon.src.includes(ascendingIcon)) {
     sortIcon.src = "./assets/" + descendingIcon;
     sortFunction(sortedCountries)
@@ -224,16 +230,32 @@ const getContinents = () => {
   uniqueContinents.forEach((continent) => {
     addToContinentList(continent);
   });
-  console.log(uniqueContinents);
 };
 
 // Display continent filter list
 const continentList = document.querySelector("#continentList");
+continentList.addEventListener("change", () => {
+  const selectedValue =
+    continentList.options[continentList.selectedIndex].value;
+  changedCountries = filteredContinents(selectedValue);
+  countryList.innerHTML = "";
+  changedCountries.forEach((country) => {
+    showCountries(country);
+  });
+});
 const addToContinentList = (continent) => {
   const listpoint = document.createElement("option");
   listpoint.value = continent;
   listpoint.innerHTML = continent;
   continentList.appendChild(listpoint);
+};
+
+// Show countries from selected continent
+const filteredContinents = (value) => {
+  let choosenContinent = allCountries.filter((country) => {
+    return country.continents.includes(value);
+  });
+  return choosenContinent;
 };
 
 const showSpesificContinent = () => {};
