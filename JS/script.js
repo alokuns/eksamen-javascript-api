@@ -345,9 +345,18 @@ const showInfoAboutCountry = (country) => {
   capital.innerHTML = `Capital: <b>${country.capital}</b>`;
   area.innerHTML = `Area: <b>${country.area} km<sup>2</sup></b>`;
   population.innerHTML = `Population: <b>${country.population}</b>`;
-  const allLanguages = Object.values(country.languages).join(", ");
-  languages.innerHTML = `Languages: <b>${allLanguages}</b>`;
-  independent.innerHTML = `Independent: <b>${country.independent}</b>`;
+  languages.innerHTML = "Languages: ";
+  if (country.languages === undefined) {
+    languages.innerHTML += "<b>No spesific language</b>";
+  } else {
+    const allLanguages = Object.values(country.languages).join(", ");
+    languages.innerHTML += `<b>${allLanguages}</b>`;
+  }
+  if (country.independent) {
+    independent.innerHTML = "Independent country";
+  } else {
+    independent.innerHTML = "Dependent country";
+  }
   isoCode.innerHTML = `ISO Code: <b>${country.cca2}</b>`;
   startWeek.innerHTML = `Start of week: <b>${country.startOfWeek}</b>`;
   currencies.innerHTML = "Currencies: ";
@@ -355,9 +364,12 @@ const showInfoAboutCountry = (country) => {
     currencies.innerHTML += "<b>no found</b>";
   } else {
     const allCurrencies = Object.values(country.currencies);
+    let currencyArray = [];
     allCurrencies.forEach((currency) => {
-      currencies.innerHTML += `<b>${currency.name} (${currency.symbol})</b>`;
+      currencyArray.push(`${currency.name} (${currency.symbol})`);
     });
+    const currencyString = currencyArray.join(", ");
+    currencies.innerHTML += `<b>${currencyString}</b>`;
   }
   timezones.innerHTML = `Timezones: <b>${country.timezones.join(", ")}</b>`;
   cars.innerHTML = `Cars: They have <b>${country.car.signs}</b> on their signs and drive on the <b>${country.car.side}</b> side of the road`;
@@ -386,10 +398,11 @@ const showInfoAboutCountry = (country) => {
   flagImg.style.width = "300px";
   flagImg.style.height = "200px";
   flagImg.style.objectFit = "contain";
-  coatOfArmsImg.src = country.coatOfArms.png;
-  coatOfArmsImg.onerror = () => {
+  if (country.coatOfArms.png === undefined) {
     coatOfArmsImg.src = "./assets/noImgIcon.png";
-  };
+  } else {
+    coatOfArmsImg.src = country.coatOfArms.png;
+  }
   coatOfArmsImg.alt = `${country.name.common}'s coat of arms`;
   coatOfArmsImg.style.width = "200px";
 
