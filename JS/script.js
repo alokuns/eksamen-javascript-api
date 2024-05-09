@@ -57,11 +57,11 @@ const fetchCountries = async () => {
 };
 
 // Show content based on if user is logged in or not
+const welcomeContainer = document.getElementById("welcomeContainer");
+const loggedInContentContainer = document.getElementById(
+  "loggedInContentContainer"
+);
 const showContent = () => {
-  const welcomeContainer = document.getElementById("welcomeContainer");
-  const loggedInContentContainer = document.getElementById(
-    "loggedInContentContainer"
-  );
   if (loggedIn()) {
     loggedInContentContainer.style.display = "block";
     fetchCountries();
@@ -121,6 +121,10 @@ const showCountries = (country) => {
     divContainer.style.backgroundColor = "#99B4BF";
     divContainer.style.color = "black";
     name.style.color = "black";
+  });
+
+  divContainer.addEventListener("click", () => {
+    showInfoAboutCountry(country);
   });
 
   divContainer.appendChild(image);
@@ -232,11 +236,11 @@ const getContinents = () => {
 
 // Add each continent to a select list
 const addToContinentList = (continent) => {
-    const listpoint = document.createElement("option");
-    listpoint.value = continent;
-    listpoint.innerHTML = continent;
-    continentList.appendChild(listpoint);
-  };
+  const listpoint = document.createElement("option");
+  listpoint.value = continent;
+  listpoint.innerHTML = continent;
+  continentList.appendChild(listpoint);
+};
 
 // Get the value of choosen continent and filter the list
 const continentList = document.querySelector("#continentList");
@@ -262,7 +266,157 @@ const filteredContinents = (value) => {
   return choosenContinent;
 };
 
+// Show specific info about country
 const countryInfoContainer = document.querySelector("#countryInfoContainer");
-
 const showInfoAboutCountry = (country) => {
+  const divLeftContainer = document.createElement("div");
+  const divMiddleContainer = document.createElement("div");
+  const divRightContainer = document.createElement("div");
+  const backBtn = document.createElement("button");
+  const nameCommon = document.createElement("h1");
+  const nameOfficial = document.createElement("h2");
+  const continent = document.createElement("p");
+  const capital = document.createElement("p");
+  const area = document.createElement("p");
+  const population = document.createElement("p");
+  const languages = document.createElement("p");
+  const independent = document.createElement("p");
+  const isoCode = document.createElement("p");
+  const startWeek = document.createElement("p");
+  const currencies = document.createElement("p");
+  const timezones = document.createElement("p");
+  const cars = document.createElement("p");
+  const addToFavouritesBtn = document.createElement("button");
+  const flagImg = document.createElement("img");
+  const coatOfArmsImg = document.createElement("img");
+
+  divLeftContainer.style.display = "flex";
+  divLeftContainer.style.flexFlow = "column nowrap";
+  divLeftContainer.style.justifyContent = "strech";
+  divLeftContainer.style.gap = "15px";
+  divLeftContainer.style.fontSize = "1.5rem";
+  divLeftContainer.style.width = "350px";
+
+  divMiddleContainer.style.display = "flex";
+  divMiddleContainer.style.flexFlow = "column nowrap";
+  divMiddleContainer.style.justifyContent = "center";
+  divMiddleContainer.style.gap = "15px";
+  divMiddleContainer.style.fontSize = "1.5rem";
+  divMiddleContainer.style.width = "350px";
+
+  divRightContainer.style.display = "flex";
+  divRightContainer.style.flexFlow = "column nowrap";
+  divRightContainer.style.justifyContent = "start";
+  divRightContainer.style.alignItems = "center";
+  divRightContainer.style.gap = "10px";
+
+  const backBtnIcon = document.createElement("img");
+  backBtnIcon.src = "./assets/leftArrowIcon.png";
+  backBtnIcon.alt = "Left arrow";
+  backBtnIcon.style.height = "20px";
+  backBtnIcon.style.marginRight = "5px";
+
+  backBtn.style.fontSize = "1.4rem";
+  backBtn.style.fontFamily = "Calibri, sans-serif";
+  backBtn.style.display = "flex";
+  backBtn.style.alignItems = "center";
+  backBtn.style.background = "none";
+  backBtn.style.border = "none";
+  backBtn.style.cursor = "pointer";
+  backBtn.addEventListener("click", () => {
+    countryInfoContainer.innerHTML = "";
+    countryInfoContainer.style.display = "none";
+    loggedInContentContainer.style.display = "block";
+  });
+  backBtn.appendChild(backBtnIcon);
+  backBtn.appendChild(document.createTextNode("Tilbake"));
+
+  nameCommon.innerHTML = country.name.common;
+  nameCommon.style.fontWeight = "bold";
+  nameCommon.style.marginTop = "30px";
+  nameCommon.style.marginBottom = "0";
+
+  nameOfficial.innerHTML = `(${country.name.official})`;
+  nameOfficial.style.fontSize = "2rem";
+  nameOfficial.style.fontWeight = "500";
+  nameOfficial.style.marginBottom = "20px";
+
+  continent.innerHTML = `Continent: <b>${country.continents}</b>`;
+  capital.innerHTML = `Capital: <b>${country.capital}</b>`;
+  area.innerHTML = `Area: <b>${country.area} km<sup>2</sup></b>`;
+  population.innerHTML = `Population: <b>${country.population}</b>`;
+  const allLanguages = Object.values(country.languages).join(", ");
+  languages.innerHTML = `Languages: <b>${allLanguages}</b>`;
+  independent.innerHTML = `Independent: <b>${country.independent}</b>`;
+  isoCode.innerHTML = `ISO Code: <b>${country.cca2}</b>`;
+  startWeek.innerHTML = `Start of week: <b>${country.startOfWeek}</b>`;
+  currencies.innerHTML = "Currencies: ";
+  if (country.currencies === undefined) {
+    currencies.innerHTML += "<b>no found</b>";
+  } else {
+    const allCurrencies = Object.values(country.currencies);
+    allCurrencies.forEach((currency) => {
+      currencies.innerHTML += `<b>${currency.name} (${currency.symbol})</b>`;
+    });
+  }
+  timezones.innerHTML = `Timezones: <b>${country.timezones.join(", ")}</b>`;
+  cars.innerHTML = `Cars: They have <b>${country.car.signs}</b> on their signs and drive on the <b>${country.car.side}</b> side of the road`;
+
+  const addBtnIcon = document.createElement("img");
+  addBtnIcon.src = "./assets/plusIcon.png";
+  addBtnIcon.alt = "Plus icon to add to list";
+  addBtnIcon.style.height = "30px";
+  addBtnIcon.style.marginRight = "10px";
+
+  addToFavouritesBtn.style.fontFamily = "Calibri, sans-serif";
+  addToFavouritesBtn.style.fontSize = "1.3rem";
+  addToFavouritesBtn.style.fontWeight = "bold";
+  addToFavouritesBtn.style.display = "flex";
+  addToFavouritesBtn.style.alignItems = "center";
+  addToFavouritesBtn.style.backgroundColor = "#d9b70d";
+  addToFavouritesBtn.style.borderRadius = "15px";
+  addToFavouritesBtn.style.padding = "15px";
+  addToFavouritesBtn.style.margin = "40px auto 0 auto";
+  addToFavouritesBtn.style.cursor = "pointer";
+  addToFavouritesBtn.appendChild(addBtnIcon);
+  addToFavouritesBtn.appendChild(document.createTextNode("Add to favourites"));
+
+  flagImg.src = country.flags.png;
+  flagImg.alt = country.flags.alt;
+  flagImg.style.width = "300px";
+  flagImg.style.height = "200px";
+  flagImg.style.objectFit = "contain";
+  coatOfArmsImg.src = country.coatOfArms.png;
+  coatOfArmsImg.onerror = () => {
+    coatOfArmsImg.src = "./assets/noImgIcon.png";
+  };
+  coatOfArmsImg.alt = `${country.name.common}'s coat of arms`;
+  coatOfArmsImg.style.width = "200px";
+
+  divLeftContainer.appendChild(backBtn);
+  divLeftContainer.appendChild(nameCommon);
+  divLeftContainer.appendChild(nameOfficial);
+  divLeftContainer.appendChild(continent);
+  divLeftContainer.appendChild(capital);
+  divLeftContainer.appendChild(area);
+  divLeftContainer.appendChild(population);
+  divLeftContainer.appendChild(languages);
+
+  divMiddleContainer.appendChild(independent);
+  divMiddleContainer.appendChild(isoCode);
+  divMiddleContainer.appendChild(startWeek);
+  divMiddleContainer.appendChild(currencies);
+  divMiddleContainer.appendChild(timezones);
+  divMiddleContainer.appendChild(cars);
+  divMiddleContainer.appendChild(addToFavouritesBtn);
+
+  divRightContainer.appendChild(flagImg);
+  divRightContainer.appendChild(coatOfArmsImg);
+
+  loggedInContentContainer.style.display = "none";
+  countryInfoContainer.style.display = "flex";
+
+  countryInfoContainer.appendChild(divLeftContainer);
+  countryInfoContainer.appendChild(divMiddleContainer);
+  countryInfoContainer.appendChild(divRightContainer);
 };

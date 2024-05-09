@@ -106,9 +106,9 @@ h1 {
 /* Spesific country */
 #countryInfoContainer {
     width: 100%;
-    display: flex;
-    flex-flow: row wrap;
     display: none;
+    flex-flow: row wrap;
+    justify-content: space-around;
 }
 
 /* List of countries */

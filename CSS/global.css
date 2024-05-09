@@ -57,3 +57,7 @@ a:hover {
 main {
     margin-top: 120px;
 }
+
+sup {
+    font-size: 0.8rem;
+}
