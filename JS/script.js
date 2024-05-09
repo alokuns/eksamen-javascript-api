@@ -230,7 +230,15 @@ const getContinents = () => {
   });
 };
 
-// Display continent filter list
+// Add each continent to a select list
+const addToContinentList = (continent) => {
+    const listpoint = document.createElement("option");
+    listpoint.value = continent;
+    listpoint.innerHTML = continent;
+    continentList.appendChild(listpoint);
+  };
+
+// Get the value of choosen continent and filter the list
 const continentList = document.querySelector("#continentList");
 continentList.addEventListener("change", () => {
   const selectedValue =
@@ -245,14 +253,8 @@ continentList.addEventListener("change", () => {
     showCountries(country);
   });
 });
-const addToContinentList = (continent) => {
-  const listpoint = document.createElement("option");
-  listpoint.value = continent;
-  listpoint.innerHTML = continent;
-  continentList.appendChild(listpoint);
-};
 
-// Show countries from selected continent
+// Filter countries by choosen continent
 const filteredContinents = (value) => {
   let choosenContinent = allCountries.filter((country) => {
     return country.continents.includes(value);
