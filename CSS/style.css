@@ -103,6 +103,14 @@ h1 {
   background-color: #bf8d30;
 }
 
+/* Spesific country */
+#countryInfoContainer {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    display: none;
+}
+
 /* List of countries */
 #countriesHeading {
   text-align: center;

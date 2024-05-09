@@ -262,4 +262,7 @@ const filteredContinents = (value) => {
   return choosenContinent;
 };
 
-const showSpesificContinent = () => {};
+const countryInfoContainer = document.querySelector("#countryInfoContainer");
+
+const showInfoAboutCountry = (country) => {
+};
