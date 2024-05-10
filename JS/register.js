@@ -30,7 +30,6 @@ const createUser = async (user) => {
         "En feil oppsto i databasen som gjorde at brukeren ikke kunne bli lagt til"
       );
     }
-    return res.json();
   } catch (error) {
     console.error("Noe gikk feil ved posting av brukeren", error);
   }

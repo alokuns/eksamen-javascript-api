@@ -394,6 +394,17 @@ const showInfoAboutCountry = (country) => {
   addToFavouritesBtn.style.padding = "15px";
   addToFavouritesBtn.style.margin = "40px auto 0 auto";
   addToFavouritesBtn.style.cursor = "pointer";
+
+  //Filter out the information I want to store in the database
+  const countryObject = {
+    name: country.name.common,
+    flag: country.flags.png,
+    comment: "",
+  };
+
+  addToFavouritesBtn.addEventListener("click", () => {
+    addToFavouriteList(countryObject);
+  });
   addToFavouritesBtn.appendChild(addBtnIcon);
   addToFavouritesBtn.appendChild(document.createTextNode("Add to favourites"));
 
@@ -436,4 +447,69 @@ const showInfoAboutCountry = (country) => {
   countryInfoContainer.appendChild(divLeftContainer);
   countryInfoContainer.appendChild(divMiddleContainer);
   countryInfoContainer.appendChild(divRightContainer);
+};
+
+// Check if country already exists in your favourites
+const checkIfCountryExist = async (object) => {
+  try {
+    const res = await getCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey()
+    );
+    if (!res.ok) {
+      throw new Error(
+        "Noe gikk feil ved i databasen ved sjekking om landet allerede er lagt til"
+      );
+    }
+    const data = await res.json();
+    return data.myFavoriteCountries.some(
+      (country) => country.name === object.name
+    );
+  } catch (error) {
+    console.error(
+      "Noe gikk feil ved sjekking om landet allerede er lagt til",
+      error
+    );
+  }
+};
+
+// Add country to favourite list
+const addToFavouriteList = async (object) => {
+  let user;
+  try {
+    if (await checkIfCountryExist(object)) {
+      return alert("The country is already added to your favourite list");
+    }
+    const res = await getCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey()
+    );
+    if (!res.ok) {
+      throw new Error("Noe gikk feil i databasen ved henting av brukerdata");
+    }
+    const data = await res.json();
+    user = data;
+  } catch (error) {
+    console.error("Noe gikk feil ved henting av brukerdata", error);
+  }
+
+  try {
+    const updatedUser = {
+      username: user.username,
+      password: user.password,
+      myFavoriteCountries: user.myFavoriteCountries,
+    };
+    updatedUser.myFavoriteCountries.push(object);
+    const res = await putCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey(),
+      updatedUser
+    );
+    if (!res.ok) {
+      throw new Error("Det oppsto en feil ved å legge til landet");
+    }
+    console.log("The country was add to your favourite list");
+  } catch (error) {
+    console.error("Noe gikk feil ved å legge til landet", error);
+  }
 };
