@@ -1,10 +1,7 @@
 import {
   USERBASE_URL,
-  COUNTRIES_URL,
   getHeadersWithKey,
-  getHeaders,
   getCall,
-  postCall,
   putCall,
   deleteCall,
   setLoginStatus,
@@ -17,9 +14,8 @@ import {
 const myFavoriteList = document.querySelector("#myFavoriteList");
 
 // Fetch favorite countries
-const getData = async () => {
+const getCountries = async () => {
   myFavoriteList.innerHTML = "";
-  // Show favourite countries if logged in
   if (loggedIn()) {
     try {
       const res = await getCall(
@@ -40,7 +36,48 @@ const getData = async () => {
     myFavoriteList.innerHTML = `<p>You are not logged in. Log in <a href="./login.html">here</a></p>`;
   }
 };
-getData();
+getCountries();
+
+// Remove country from favorites
+const deleteCountry = async (object) => {
+  let user;
+  try {
+    const res = await getCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey()
+    );
+    if (!res.ok) {
+      throw new Error("Noe gikk feil i databasen ved henting av land");
+    }
+    const data = await res.json();
+    user = data;
+  } catch (error) {
+    console.error("Det skjedde en feil ved henting av land", error);
+  }
+
+  try {
+    const updatedList = {
+      username: user.username,
+      password: user.password,
+      myFavoriteCountries: user.myFavoriteCountries,
+    };
+    let index = updatedList.myFavoriteCountries.findIndex(
+      (country) => country.name === object.name
+    );
+    updatedList.myFavoriteCountries.splice(index, 1);
+    const res = await putCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey(),
+      updatedList
+    );
+    if (!res.ok) {
+      throw new Error("Noe gikk feil ved oppdatering av land til databasen");
+    }
+    await getCountries();
+  } catch (error) {
+    console.error("Det skjedde en feil med å oppdatere favoritt land", error);
+  }
+};
 
 // Show favorite countries
 const showMyCountries = (country) => {
@@ -66,7 +103,6 @@ const showMyCountries = (country) => {
   divContainer.style.backgroundColor = "#99B4BF";
   divContainer.style.border = "1px solid black";
   divContainer.style.borderRadius = "5px";
-  divContainer.style.cursor = "pointer";
 
   removeContainer.style.display = "flex";
   removeContainer.style.width = "100%";
@@ -80,6 +116,9 @@ const showMyCountries = (country) => {
   removeBtn.style.fontWeight = "bold";
   removeBtn.style.padding = "5px 8px";
   removeBtn.style.borderRadius = "5px";
+  removeBtn.addEventListener("click", async () => {
+    await deleteCountry(country);
+  });
 
   image.src = country.flag;
   image.alt = "The flag of" + "";
@@ -106,8 +145,7 @@ const showMyCountries = (country) => {
   inputContainer.style.justifyContent = "start";
 
   commentInput.type = "text";
-  commentInput.placeholder =
-    "Ex: Love the food, people etc.";
+  commentInput.placeholder = "Ex: Love the food, people etc.";
   commentInput.style.padding = "10px";
   commentInput.style.fontSize = "0.9rem";
   commentInput.style.width = "220px";

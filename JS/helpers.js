@@ -43,7 +43,7 @@ const putCall = (url, headerParam, bodyData) => {
 
 const deleteCall = (url, headerParam) => {
   return fetch(url, {
-    method: "PUT",
+    method: "DELETE",
     headers: headerParam,
   });
 };
