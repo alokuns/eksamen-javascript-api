@@ -402,9 +402,15 @@ const showInfoAboutCountry = (country) => {
     comment: "",
   };
 
-  addToFavouritesBtn.addEventListener("click", () => {
+  const addCountry = () => {
     addToFavouriteList(countryObject);
-  });
+  };
+
+  addToFavouritesBtn.addEventListener("click", addCountry);
+  addToFavouritesBtn.onclick = () => {
+    addToFavouritesBtn.removeEventListener("click", addCountry);
+    addToFavouritesBtn.style.cursor = "default";
+  };
   addToFavouritesBtn.appendChild(addBtnIcon);
   addToFavouritesBtn.appendChild(document.createTextNode("Add to favourites"));
 
@@ -478,7 +484,7 @@ const addToFavouriteList = async (object) => {
   let user;
   try {
     if (await checkIfCountryExist(object)) {
-      return alert("The country is already added to your favourite list");
+      return showAddedInfo(object.name, true);
     }
     const res = await getCall(
       `${USERBASE_URL}/${getLoggedInUser()}`,
@@ -508,8 +514,96 @@ const addToFavouriteList = async (object) => {
     if (!res.ok) {
       throw new Error("Det oppsto en feil ved å legge til landet");
     }
-    console.log("The country was add to your favourite list");
+    showAddedInfo(object.name, false);
   } catch (error) {
     console.error("Noe gikk feil ved å legge til landet", error);
   }
+};
+
+// Show added status message
+const showAddedInfo = (countryName, alreadyAdded) => {
+  const overlay = document.getElementById("overlay");
+  const addedOverlayInfo = document.getElementById("addedOverlayInfo");
+  overlay.style.display = "block";
+  addedOverlayInfo.style.display = "flex";
+
+  const container = document.createElement("div");
+  const xBtnContainer = document.createElement("div");
+  const xBtn = document.createElement("button");
+  const msgText = document.createElement("p");
+  const btnContainer = document.createElement("div");
+  const myListBtn = document.createElement("button");
+  const okBtn = document.createElement("button");
+
+  container.style.display = "flex";
+  container.style.flexFlow = "column nowrap";
+  container.style.justifyContent = "space-between";
+  container.style.backgroundColor = "white";
+  container.style.borderRadius = "15px";
+  container.style.padding = "25px";
+  container.style.width = "500px";
+
+  xBtnContainer.style.display = "flex";
+  xBtnContainer.style.width = "100%";
+  xBtnContainer.style.justifyContent = "end";
+  xBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    addedOverlayInfo.innerHTML = "";
+    addedOverlayInfo.style.display = "none";
+  });
+
+  xBtn.innerHTML = "X";
+  xBtn.style.display = "flex";
+  xBtn.style.justifyContent = "center";
+  xBtn.style.fontSize = "1.2rem";
+  xBtn.style.fontWeight = "bold";
+  xBtn.style.padding = "2px 5px";
+  xBtn.style.borderRadius = "5px";
+
+  if (alreadyAdded === true) {
+    msgText.innerHTML = `${countryName} is already in your favorite list`;
+  } else {
+    msgText.innerHTML = `${countryName} was added to your favorite list`;
+  }
+  msgText.style.fontSize = "2rem";
+  msgText.style.fontWeight = "bold";
+  msgText.style.textAlign = "center";
+  msgText.style.margin = "40px 0 60px 0";
+
+  btnContainer.style.display = "flex";
+  btnContainer.style.flexFlow = "row wrap";
+  btnContainer.style.justifyContent = "space-between";
+  btnContainer.style.alignItems = "center";
+
+  myListBtn.innerHTML = "Go to my favourites";
+  myListBtn.style.fontSize = "1.2rem";
+  myListBtn.style.fontFamily = "Calibri, sans-serif";
+  myListBtn.style.fontWeight = "bold";
+  myListBtn.style.backgroundColor = "#D9B70D";
+  myListBtn.style.borderRadius = "15px";
+  myListBtn.style.padding = "15px 25px";
+  myListBtn.addEventListener("click", () => {
+    window.location.href = "./mylist.html";
+  });
+
+  okBtn.innerHTML = "OK";
+  okBtn.style.fontSize = "1.2rem";
+  okBtn.style.fontFamily = "Calibri, sans-serif";
+  okBtn.style.fontWeight = "bold";
+  okBtn.style.borderRadius = "15px";
+  okBtn.style.padding = "15px 25px";
+  okBtn.style.width = "100px";
+  okBtn.addEventListener("click", () => {
+    overlay.style.display = "none";
+    addedOverlayInfo.innerHTML = "";
+    addedOverlayInfo.style.display = "none";
+  });
+
+  xBtnContainer.appendChild(xBtn);
+  container.appendChild(xBtnContainer);
+  container.appendChild(msgText);
+  btnContainer.appendChild(myListBtn);
+  btnContainer.appendChild(okBtn);
+  container.appendChild(btnContainer);
+  addedOverlayInfo.appendChild(container);
 };

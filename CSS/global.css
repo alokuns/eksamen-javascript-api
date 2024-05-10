@@ -50,14 +50,17 @@ a:hover {
 }
 
 .logOutBtn:hover {
-  cursor: pointer;
   text-decoration: underline;
 }
 
+button {
+  cursor: pointer;
+}
+
 main {
-    margin-top: 120px;
+  margin-top: 120px;
 }
 
 sup {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
