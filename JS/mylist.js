@@ -79,6 +79,46 @@ const deleteCountry = async (object) => {
   }
 };
 
+// Save comment to database
+const saveCommentToDatabase = async (object, comment) => {
+  let user;
+  try {
+    const res = await getCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey()
+    );
+    if (!res.ok) {
+      throw new Error("Noe gikk feil i databasen ved henting av land");
+    }
+    const data = await res.json();
+    user = data;
+  } catch (error) {
+    console.error("Det skjedde en feil ved henting av land", error);
+  }
+
+  try {
+    const updatedList = {
+      username: user.username,
+      password: user.password,
+      myFavoriteCountries: user.myFavoriteCountries,
+    };
+    let index = updatedList.myFavoriteCountries.findIndex(
+      (country) => country.name === object.name
+    );
+    updatedList.myFavoriteCountries[index].comment = comment;
+    const res = await putCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey(),
+      updatedList
+    );
+    if (!res.ok) {
+      throw new Error("Noe gikk feil ved lagring av kommentar til databasen");
+    }
+  } catch (error) {
+    console.error("Det skjedde en feil med lagring av kommentar", error);
+  }
+};
+
 // Show favorite countries
 const showMyCountries = (country) => {
   const divContainer = document.createElement("div");
@@ -146,10 +186,32 @@ const showMyCountries = (country) => {
 
   commentInput.type = "text";
   commentInput.placeholder = "Ex: Love the food, people etc.";
+  commentInput.value = country.comment;
   commentInput.style.padding = "10px";
   commentInput.style.fontSize = "0.9rem";
   commentInput.style.width = "220px";
   commentInput.style.borderRadius = "10px";
+
+  const saveComment = () => {
+    saveCommentBtn.style.opacity = "0";
+    saveCommentBtn.style.cursor = "default";
+    const commentValue = commentInput.value;
+    saveCommentToDatabase(country, commentValue);
+  };
+
+  commentInput.addEventListener("focus", () => {
+    saveCommentBtn.style.opacity = "1";
+    saveCommentBtn.style.cursor = "pointer";
+    saveCommentBtn.addEventListener("click", saveComment);
+    saveCommentBtn.onclick = () => {
+      saveCommentBtn.removeEventListener("click", saveComment);
+    };
+  });
+
+  commentInput.addEventListener("blur", () => {
+    saveComment();
+    saveCommentBtn.removeEventListener("click", saveComment);
+  });
 
   saveCommentSymbol.src = "./assets/checkIcon.png";
   saveCommentSymbol.alt = "Check symbol";
@@ -158,6 +220,7 @@ const showMyCountries = (country) => {
 
   saveCommentBtn.style.background = "none";
   saveCommentBtn.style.border = "none";
+  saveCommentBtn.style.cursor = "default";
   saveCommentBtn.style.opacity = "0";
 
   removeContainer.appendChild(removeBtn);
