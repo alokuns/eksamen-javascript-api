@@ -49,8 +49,9 @@ const showMyCountries = (country) => {
   const removeBtn = document.createElement("button");
   const image = document.createElement("img");
   const name = document.createElement("p");
+  const commentSection = document.createElement("div");
   const commentTitle = document.createElement("p");
-  const commentContainer = document.createElement("div");
+  const inputContainer = document.createElement("div");
   const commentInput = document.createElement("input");
   const saveCommentSymbol = document.createElement("img");
   const saveCommentBtn = document.createElement("button");
@@ -91,38 +92,45 @@ const showMyCountries = (country) => {
   name.style.color = "black";
   name.style.textAlign = "center";
 
+  commentSection.style.display = "flex";
+  commentSection.style.flexFlow = "column nowrap";
+  commentSection.style.justifyContent = "start";
+
   commentTitle.innerHTML = "Why do you like this country?";
   commentTitle.style.fontSize = "1.1rem";
   commentTitle.style.fontWeight = "bold";
-  commentTitle.style.marginTop = "20px";
+  commentTitle.style.margin = "20px 0 10px 0";
 
-  commentContainer.style.display = "flex";
-  commentContainer.style.flexFlow = "row nowrap";
-  commentContainer.style.justifyContent = "start";
+  inputContainer.style.display = "flex";
+  inputContainer.style.flexFlow = "row nowrap";
+  inputContainer.style.justifyContent = "start";
 
   commentInput.type = "text";
   commentInput.placeholder =
-    "Ex: love the food, people etc.";
+    "Ex: Love the food, people etc.";
   commentInput.style.padding = "10px";
   commentInput.style.fontSize = "0.9rem";
   commentInput.style.width = "220px";
+  commentInput.style.borderRadius = "10px";
 
-  saveCommentSymbol.src = "";
-  saveCommentSymbol.alt = "";
-  saveCommentSymbol.style.height = "10px";
-  saveCommentSymbol.style.objectFit = "contain";
+  saveCommentSymbol.src = "./assets/checkIcon.png";
+  saveCommentSymbol.alt = "Check symbol";
+  saveCommentSymbol.style.height = "20px";
+  saveCommentSymbol.style.marginLeft = "15px";
 
   saveCommentBtn.style.background = "none";
   saveCommentBtn.style.border = "none";
+  saveCommentBtn.style.opacity = "0";
 
   removeContainer.appendChild(removeBtn);
   divContainer.appendChild(removeContainer);
   divContainer.appendChild(image);
   divContainer.appendChild(name);
-  divContainer.appendChild(commentTitle);
-  commentContainer.appendChild(commentInput);
+  commentSection.appendChild(commentTitle);
+  inputContainer.appendChild(commentInput);
   saveCommentBtn.appendChild(saveCommentSymbol);
-  commentContainer.appendChild(saveCommentBtn);
-  divContainer.appendChild(commentContainer);
+  inputContainer.appendChild(saveCommentBtn);
+  commentSection.appendChild(inputContainer);
+  divContainer.appendChild(commentSection);
   myFavoriteList.appendChild(divContainer);
 };
