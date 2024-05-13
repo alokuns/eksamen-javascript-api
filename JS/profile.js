@@ -17,6 +17,7 @@ import {
 // Get profile container
 const myProfileSection = document.getElementById("myProfileSection");
 
+// Show profile information
 const showProfile = async () => {
   const user = await getUserData();
 
@@ -27,6 +28,8 @@ const showProfile = async () => {
   const passwordTitle = document.createElement("h3");
   const passwordContainer = document.createElement("div");
   const password = document.createElement("p");
+  const passwordInputField = document.createElement("input");
+  const changePasswordBtn = document.createElement("button");
   const editPasswordBtn = document.createElement("button");
   const deleteBtn = document.createElement("button");
 
@@ -55,12 +58,39 @@ const showProfile = async () => {
   password.style.fontSize = "1.2rem";
   password.style.fontStyle = "italic";
 
+  passwordInputField.type = "text";
+  passwordInputField.value = user.password;
+  passwordInputField.style.fontSize = "1rem";
+  passwordInputField.style.padding = "5px";
+  passwordInputField.style.width = "140px";
+
+  changePasswordBtn.innerHTML = "Change password";
+  changePasswordBtn.style.padding = "7px";
+  changePasswordBtn.style.borderRadius = "10px";
+  changePasswordBtn.style.fontFamily = "Calibri, sans-serif";
+  changePasswordBtn.style.fontSize = "1rem";
+  changePasswordBtn.style.backgroundColor = "#d9dfe1";
+  changePasswordBtn.addEventListener("click", async () => {
+    if (await changePassword(passwordInputField.value)) {
+      location.reload();
+    }
+  });
+
   editPasswordBtn.innerHTML = "Edit password";
   editPasswordBtn.style.padding = "7px";
   editPasswordBtn.style.borderRadius = "10px";
   editPasswordBtn.style.fontFamily = "Calibri, sans-serif";
   editPasswordBtn.style.fontSize = "1rem";
   editPasswordBtn.style.backgroundColor = "#d9dfe1";
+  editPasswordBtn.addEventListener("click", () => {
+    myProfileSection.style.marginLeft = "205px";
+    passwordContainer.style.gap = "20px";
+    passwordContainer.removeChild(password);
+    passwordContainer.removeChild(editPasswordBtn);
+    passwordContainer.appendChild(passwordInputField);
+    passwordContainer.appendChild(changePasswordBtn);
+    passwordInputField.focus();
+  });
 
   deleteBtn.innerHTML = "Delete my account";
   deleteBtn.style.padding = "7px";
@@ -84,6 +114,7 @@ const showProfile = async () => {
 
 showProfile();
 
+// Show delete alert info box
 const showDeleteAlert = () => {
   const alertOverlay = document.getElementById("alertOverlay");
   const alertContainer = document.getElementById("alertContainer");
@@ -186,4 +217,27 @@ const showDeleteAlert = () => {
   btnContainer.appendChild(noBtn);
   container.appendChild(btnContainer);
   alertContainer.appendChild(container);
+};
+
+// Change user password
+const changePassword = async (newPassword) => {
+  const user = await getUserData();
+  try {
+    const updatedUser = {
+      username: user.username,
+      password: newPassword,
+      myFavoriteCountries: user.myFavoriteCountries,
+    };
+    const res = await putCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey(),
+      updatedUser
+    );
+    if (!res.ok) {
+      throw new Error("Det skjedde en feil ved endring av passord");
+    }
+    return true;
+  } catch (error) {
+    console.error("Et problem oppsto ved endring av passord", error);
+  }
 };
