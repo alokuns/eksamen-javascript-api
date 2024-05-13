@@ -267,6 +267,18 @@ const filteredContinents = (value) => {
   return choosenContinent;
 };
 
+//Get random country
+const randomCountry = () => {
+  const randomNumber = Math.floor(Math.random() * allCountries.length);
+  return allCountries[randomNumber];
+};
+
+// Add event listener to random country button
+const randomCountryBtn = document.querySelector("#randomCountryBtn");
+randomCountryBtn.addEventListener("click", () => {
+  showInfoAboutCountry(randomCountry());
+});
+
 // Show specific info about country
 const countryInfoContainer = document.querySelector("#countryInfoContainer");
 const showInfoAboutCountry = (country) => {
