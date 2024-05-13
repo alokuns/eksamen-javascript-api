@@ -27,7 +27,7 @@ const showProfile = async () => {
   const passwordTitle = document.createElement("h3");
   const passwordContainer = document.createElement("div");
   const password = document.createElement("p");
-  const changePasswordBtn = document.createElement("button");
+  const editPasswordBtn = document.createElement("button");
   const deleteBtn = document.createElement("button");
 
   nameWrapper.style.margin = "25px";
@@ -55,12 +55,12 @@ const showProfile = async () => {
   password.style.fontSize = "1.2rem";
   password.style.fontStyle = "italic";
 
-  changePasswordBtn.innerHTML = "Edit password";
-  changePasswordBtn.style.padding = "7px";
-  changePasswordBtn.style.borderRadius = "10px";
-  changePasswordBtn.style.fontFamily = "Calibri, sans-serif";
-  changePasswordBtn.style.fontSize = "1rem";
-  changePasswordBtn.style.backgroundColor = "#d9dfe1";
+  editPasswordBtn.innerHTML = "Edit password";
+  editPasswordBtn.style.padding = "7px";
+  editPasswordBtn.style.borderRadius = "10px";
+  editPasswordBtn.style.fontFamily = "Calibri, sans-serif";
+  editPasswordBtn.style.fontSize = "1rem";
+  editPasswordBtn.style.backgroundColor = "#d9dfe1";
 
   deleteBtn.innerHTML = "Delete my account";
   deleteBtn.style.padding = "7px";
@@ -74,7 +74,7 @@ const showProfile = async () => {
   nameWrapper.appendChild(nameTitle);
   nameWrapper.appendChild(name);
   passwordContainer.appendChild(password);
-  passwordContainer.appendChild(changePasswordBtn);
+  passwordContainer.appendChild(editPasswordBtn);
   passwordWrapper.appendChild(passwordTitle);
   passwordWrapper.appendChild(passwordContainer);
   myProfileSection.appendChild(nameWrapper);
@@ -147,8 +147,21 @@ const showDeleteAlert = () => {
   yesBtn.style.fontFamily = "Calibri, sans-serif";
   yesBtn.style.borderRadius = "20px";
   yesBtn.style.padding = "25px 75px";
-  yesBtn.addEventListener("click", () => {
-    window.location.href = "./index.html";
+  yesBtn.addEventListener("click", async () => {
+    try {
+      const res = await deleteCall(
+        `${USERBASE_URL}/${getLoggedInUser()}`,
+        getHeadersWithKey()
+      );
+      if (!res.ok) {
+        throw new Error("Noe gikk feil ved sletting av brukeren");
+      }
+      setLoginStatus(false);
+      sessionStorage.removeItem("loggedInUser");
+      window.location.href = "./index.html";
+    } catch (error) {
+      console.error("Det skjedde en feil ved sletting av brukeren", error);
+    }
   });
 
   noBtn.innerHTML = "No";
