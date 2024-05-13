@@ -4,6 +4,7 @@ import {
   getCall,
   putCall,
   deleteCall,
+  getUserData,
   setLoginStatus,
   loggedIn,
   logOut,
@@ -17,23 +18,12 @@ const myFavoriteList = document.querySelector("#myFavoriteList");
 const getCountries = async () => {
   myFavoriteList.innerHTML = "";
   if (loggedIn()) {
-    try {
-      const res = await getCall(
-        `${USERBASE_URL}/${getLoggedInUser()}`,
-        getHeadersWithKey()
-      );
-      if (!res.ok) {
-        throw new Error("Noe gikk feil ved henting av landene");
-      }
-      const data = await res.json();
-      data.myFavoriteCountries.forEach((country) => {
-        showMyCountries(country);
-      });
-      if (myFavoriteList.innerHTML === "") {
-        myFavoriteList.innerHTML = `<p class="infoText">Your list is empty. Add a country to your favorites <a href="./index.html">here</a></p>`;
-      }
-    } catch (error) {
-      console.error("Noe gikk feil ved henting av favoritt land", error);
+    const user = await getUserData();
+    user.myFavoriteCountries.forEach((country) => {
+      showMyCountries(country);
+    });
+    if (myFavoriteList.innerHTML === "") {
+      myFavoriteList.innerHTML = `<p class="infoText">Your list is empty. Add a country to your favorites <a href="./index.html">here</a></p>`;
     }
   } else {
     myFavoriteList.innerHTML = `<p class="infoText">You are not logged in. Log in <a href="./login.html">here</a></p>`;
@@ -43,21 +33,7 @@ getCountries();
 
 // Remove country from favorites
 const deleteCountry = async (object) => {
-  let user;
-  try {
-    const res = await getCall(
-      `${USERBASE_URL}/${getLoggedInUser()}`,
-      getHeadersWithKey()
-    );
-    if (!res.ok) {
-      throw new Error("Noe gikk feil i databasen ved henting av land");
-    }
-    const data = await res.json();
-    user = data;
-  } catch (error) {
-    console.error("Det skjedde en feil ved henting av land", error);
-  }
-
+  let user = await getUserData();
   try {
     const updatedList = {
       username: user.username,
@@ -84,21 +60,7 @@ const deleteCountry = async (object) => {
 
 // Save comment to database
 const saveCommentToDatabase = async (object, comment) => {
-  let user;
-  try {
-    const res = await getCall(
-      `${USERBASE_URL}/${getLoggedInUser()}`,
-      getHeadersWithKey()
-    );
-    if (!res.ok) {
-      throw new Error("Noe gikk feil i databasen ved henting av land");
-    }
-    const data = await res.json();
-    user = data;
-  } catch (error) {
-    console.error("Det skjedde en feil ved henting av land", error);
-  }
-
+  let user = await getUserData();
   try {
     const updatedList = {
       username: user.username,
