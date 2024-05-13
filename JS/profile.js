@@ -129,7 +129,8 @@ const showDeleteAlert = () => {
   msgText.style.textAlign = "center";
   msgText.style.marginTop = "40px";
 
-  msgSmallText.innerHTML = "This can not be undone. All your data will get lost.";
+  msgSmallText.innerHTML =
+    "This can not be undone. All your data will get lost.";
   msgSmallText.style.fontSize = "1.4rem";
   msgSmallText.style.fontWeight = "bold";
   msgSmallText.style.textAlign = "center";
