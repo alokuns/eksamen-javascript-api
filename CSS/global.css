@@ -53,6 +53,21 @@ a:hover {
   text-decoration: underline;
 }
 
+#profileListPoint {
+    position: absolute;
+    right: 30px;
+    display: none;
+}
+
+#profileLink {
+    padding: 0;
+    display: flex;
+}
+
+#profileIcon {
+    height: 20px;
+}
+
 button {
   cursor: pointer;
 }
