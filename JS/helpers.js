@@ -48,6 +48,25 @@ const deleteCall = (url, headerParam) => {
   });
 };
 
+// Get user data
+const getUserData = async () => {
+  let user;
+  try {
+    const res = await getCall(
+      `${USERBASE_URL}/${getLoggedInUser()}`,
+      getHeadersWithKey()
+    );
+    if (!res.ok) {
+      throw new Error("Noe gikk feil i databasen ved henting av land");
+    }
+    const data = await res.json();
+    user = data;
+    return user;
+  } catch (error) {
+    console.error("Det skjedde en feil ved henting av land", error);
+  }
+};
+
 // Login functions and sessionstorage setup
 const setLoginStatus = (status) => {
   sessionStorage.setItem("loggedIn", status ? "true" : "false");
@@ -77,6 +96,7 @@ export {
   postCall,
   putCall,
   deleteCall,
+  getUserData,
   setLoginStatus,
   loggedIn,
   logOut,
