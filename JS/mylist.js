@@ -29,6 +29,9 @@ const getCountries = async () => {
       data.myFavoriteCountries.forEach((country) => {
         showMyCountries(country);
       });
+      if (myFavoriteList.innerHTML === "") {
+        myFavoriteList.innerHTML = `<p class="infoText">Your list is empty. Add a country to your favorites <a href="./index.html">here</a></p>`;
+      }
     } catch (error) {
       console.error("Noe gikk feil ved henting av favoritt land", error);
     }
