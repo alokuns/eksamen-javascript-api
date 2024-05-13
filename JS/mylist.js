@@ -33,7 +33,7 @@ const getCountries = async () => {
       console.error("Noe gikk feil ved henting av favoritt land", error);
     }
   } else {
-    myFavoriteList.innerHTML = `<p>You are not logged in. Log in <a href="./login.html">here</a></p>`;
+    myFavoriteList.innerHTML = `<p class="infoText">You are not logged in. Log in <a href="./login.html">here</a></p>`;
   }
 };
 getCountries();
