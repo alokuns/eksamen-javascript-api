@@ -121,9 +121,15 @@ const showMyCountries = (country) => {
   removeBtn.style.fontWeight = "bold";
   removeBtn.style.padding = "5px 8px";
   removeBtn.style.borderRadius = "5px";
-  removeBtn.addEventListener("click", async () => {
+
+  const removeCountry = async () => {
     await deleteCountry(country);
-  });
+  };
+
+  removeBtn.addEventListener("click", removeCountry);
+  removeBtn.onclick = () => {
+    removeBtn.removeEventListener("click", removeCountry);
+  };
 
   image.src = country.flag;
   image.alt = "The flag of" + "";
