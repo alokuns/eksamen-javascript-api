@@ -90,7 +90,7 @@ h1 {
   border: 1px solid black;
 }
 
-#randomCountryBtn {
+#randomCountryBtn, .randomBtn {
   padding: 15px;
   font-size: 1rem;
   font-weight: bold;
@@ -127,10 +127,10 @@ h1 {
 }
 
 #countryInfoContainer {
-  width: 100%;
   display: none;
   flex-flow: row wrap;
   justify-content: space-around;
+  margin: 20px;
 }
 
 /* List of countries */

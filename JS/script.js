@@ -300,6 +300,7 @@ const showInfoAboutCountry = (country) => {
   const timezones = document.createElement("p");
   const cars = document.createElement("p");
   const addToFavouritesBtn = document.createElement("button");
+  const randomBtn = document.createElement("button");
   const flagImg = document.createElement("img");
   const coatOfArmsImg = document.createElement("img");
 
@@ -308,14 +309,14 @@ const showInfoAboutCountry = (country) => {
   divLeftContainer.style.justifyContent = "strech";
   divLeftContainer.style.gap = "15px";
   divLeftContainer.style.fontSize = "1.5rem";
-  divLeftContainer.style.width = "350px";
+  divLeftContainer.style.width = "330px";
 
   divMiddleContainer.style.display = "flex";
   divMiddleContainer.style.flexFlow = "column nowrap";
   divMiddleContainer.style.justifyContent = "center";
   divMiddleContainer.style.gap = "15px";
   divMiddleContainer.style.fontSize = "1.5rem";
-  divMiddleContainer.style.width = "350px";
+  divMiddleContainer.style.width = "330px";
 
   divRightContainer.style.display = "flex";
   divRightContainer.style.flexFlow = "column nowrap";
@@ -398,18 +399,17 @@ const showInfoAboutCountry = (country) => {
   const addBtnIcon = document.createElement("img");
   addBtnIcon.src = "./assets/plusIcon.png";
   addBtnIcon.alt = "Plus icon to add to list";
-  addBtnIcon.style.height = "30px";
+  addBtnIcon.style.height = "20px";
   addBtnIcon.style.marginRight = "10px";
 
-  addToFavouritesBtn.style.fontFamily = "Calibri, sans-serif";
-  addToFavouritesBtn.style.fontSize = "1.3rem";
+  addToFavouritesBtn.style.fontSize = "1rem";
   addToFavouritesBtn.style.fontWeight = "bold";
   addToFavouritesBtn.style.display = "flex";
   addToFavouritesBtn.style.alignItems = "center";
   addToFavouritesBtn.style.backgroundColor = "#d9b70d";
   addToFavouritesBtn.style.borderRadius = "15px";
   addToFavouritesBtn.style.padding = "15px";
-  addToFavouritesBtn.style.margin = "40px auto 0 auto";
+  addToFavouritesBtn.style.margin = "30px auto 0 auto";
   addToFavouritesBtn.style.cursor = "pointer";
 
   //Filter out the information I want to store in the database
@@ -430,6 +430,14 @@ const showInfoAboutCountry = (country) => {
   };
   addToFavouritesBtn.appendChild(addBtnIcon);
   addToFavouritesBtn.appendChild(document.createTextNode("Add to favourites"));
+
+  randomBtn.innerHTML = "Get random country";
+  randomBtn.classList.add("randomBtn");
+  randomBtn.style.margin = "0 auto 30px auto";
+  randomBtn.addEventListener("click", () => {
+    countryInfoContainer.innerHTML = "";
+    showInfoAboutCountry(randomCountry());
+  });
 
   flagImg.src = country.flags.png;
   flagImg.alt = country.flags.alt;
@@ -453,6 +461,7 @@ const showInfoAboutCountry = (country) => {
   divLeftContainer.appendChild(population);
   divLeftContainer.appendChild(languages);
 
+  divMiddleContainer.appendChild(randomBtn);
   divMiddleContainer.appendChild(independent);
   divMiddleContainer.appendChild(isoCode);
   divMiddleContainer.appendChild(startWeek);
