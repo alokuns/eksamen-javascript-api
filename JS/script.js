@@ -358,7 +358,7 @@ const showInfoAboutCountry = (country) => {
   if (country.capital === undefined) {
     capital.innerHTML = `Capital: <b>No capital</b>`;
   } else {
-    capital.innerHTML = `Capital: <b>${country.capital}</b>`;
+    capital.innerHTML = `Capital: <b>${country.capital.join(", ")}</b>`;
   }
   area.innerHTML = `Area: <b>${country.area} km<sup>2</sup></b>`;
   population.innerHTML = `Population: <b>${country.population}</b>`;
