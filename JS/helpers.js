@@ -79,7 +79,7 @@ const loggedIn = () => {
 const logOut = () => {
   setLoginStatus(false);
   sessionStorage.removeItem("loggedInUser");
-  location.reload();
+  window.location.href = "./index.html";
 };
 
 const getLoggedInUser = () => {
