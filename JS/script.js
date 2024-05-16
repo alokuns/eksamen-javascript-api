@@ -332,10 +332,14 @@ const showInfoAboutCountry = (country) => {
 
   backBtn.style.fontSize = "1.4rem";
   backBtn.style.fontFamily = "Calibri, sans-serif";
+  backBtn.style.fontWeight = "bold";
   backBtn.style.display = "flex";
   backBtn.style.alignItems = "center";
-  backBtn.style.background = "none";
+  backBtn.style.width = "110px";
+  backBtn.style.backgroundColor = "#99B4BF"
   backBtn.style.border = "none";
+  backBtn.style.borderRadius = "15px";
+  backBtn.style.padding = "5px";
   backBtn.style.cursor = "pointer";
   backBtn.addEventListener("click", () => {
     countryInfoContainer.innerHTML = "";
