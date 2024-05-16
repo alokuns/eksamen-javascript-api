@@ -389,7 +389,11 @@ const showInfoAboutCountry = (country) => {
     currencies.innerHTML += `<b>${currencyString}</b>`;
   }
   timezones.innerHTML = `Timezones: <b>${country.timezones.join(", ")}</b>`;
-  cars.innerHTML = `Cars: They have <b>${country.car.signs}</b> on their signs and drive on the <b>${country.car.side}</b> side of the road`;
+  if (country.car.signs[0] === "") {
+    cars.innerHTML = `Cars: They drive on the <b>${country.car.side}</b> side`;
+  } else {
+    cars.innerHTML = `Cars: <b>${country.car.signs}</b> is on the license plate and they drive on the <b>${country.car.side}</b> side`;
+  }
 
   const addBtnIcon = document.createElement("img");
   addBtnIcon.src = "./assets/plusIcon.png";
